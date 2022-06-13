@@ -27,11 +27,11 @@ public class GuestController {
 	public String List(Model model) {
 		System.out.println("GuestController > addList()");
 
-		// Dao를 통해서 personList(주소)를 가져온다.
+		// Dao를 통해서 guestList(주소)를 가져온다.
 		GuestBookDao guestBookDao = new GuestBookDao();
 		List<GuestBookVo> guestList = guestBookDao.guestSelect();
 
-		// ds 데이터보내기 --> request Attribute 에 넣는다.
+		// ds 데이터보내기 --> model Attribute 에 넣는다.
 		model.addAttribute("guestList", guestList);
 
 		// list.jsp로 포워딩
@@ -52,7 +52,7 @@ public class GuestController {
 		return "redirect:/addList";
 	}
 
-	// 전화번호 삭제폼
+	// 방명록 삭제폼
 	@RequestMapping(value = "/deleteForm/{no}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String deleteForm(@PathVariable("no") int no, Model model) {
 		GuestBookDao guestBookDao = new GuestBookDao();
