@@ -2,6 +2,7 @@ package com.javaex.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javaex.dao.GuestBookDao;
+import com.javaex.service.GuestBookService;
 import com.javaex.vo.GuestBookVo;
 
 @Controller
@@ -18,6 +19,8 @@ import com.javaex.vo.GuestBookVo;
 public class GuestController {
 
 	// 필드
+	@Autowired
+	private GuestBookService guestBookService;
 	// 생성자
 	// 메소드 - gs
 	// 메소드-일반
@@ -28,8 +31,7 @@ public class GuestController {
 		System.out.println("GuestController > addList()");
 
 		// Dao를 통해서 guestList(주소)를 가져온다.
-		GuestBookDao guestBookDao = new GuestBookDao();
-		List<GuestBookVo> guestList = guestBookDao.guestSelect();
+		List<GuestBookVo> guestList = guestBookService.guestSelect();
 
 		// ds 데이터보내기 --> model Attribute 에 넣는다.
 		model.addAttribute("guestList", guestList);
@@ -44,8 +46,7 @@ public class GuestController {
 		System.out.println("GuestBookController > add");
 
 		// dao로 저장하기
-		GuestBookDao guestBookDao = new GuestBookDao();
-		int count = guestBookDao.guestAdd(guestBookVo);
+		int count = guestBookService.guestAdd(guestBookVo);
 		System.out.println(count);
 
 		// 리다이렉트
@@ -55,8 +56,7 @@ public class GuestController {
 	// 방명록 삭제폼
 	@RequestMapping(value = "/deleteForm/{no}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String deleteForm(@PathVariable("no") int no, Model model) {
-		GuestBookDao guestBookDao = new GuestBookDao();
-		GuestBookVo guestBookVo = guestBookDao.getGuest(no);
+		GuestBookVo guestBookVo = guestBookService.getGuest(no);
 		System.out.println(guestBookVo);
 		
 		model.addAttribute("guestBookVo",guestBookVo);
@@ -67,9 +67,8 @@ public class GuestController {
 	// ===================================== 삭제 =====================================
 	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
 	public String delete(@RequestParam("no") int no, @RequestParam("password") String password) {
-		GuestBookDao guestBookDao = new GuestBookDao();
-		if (password.equals(guestBookDao.getGuest(no).getPassword())) {
-			guestBookDao.guestDelete(no);
+		if (password.equals(guestBookService.getGuest(no).getPassword())) {
+			guestBookService.guestDelete(no);
 		} else {
 			System.out.println("비밀번호가 틀립니다.");
 

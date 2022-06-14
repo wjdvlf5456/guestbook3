@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.javaex.vo.GuestBookVo;
 
+@Repository
 public class GuestBookDao {
 
 	// 필드
@@ -132,6 +135,7 @@ public class GuestBookDao {
 			query += " 		  content,";
 			query += " 		  reg_date";
 			query += " from guestbook ";
+			query += " order by no asc ";
 
 			// 바인딩
 			pstmt = conn.prepareStatement(query);
