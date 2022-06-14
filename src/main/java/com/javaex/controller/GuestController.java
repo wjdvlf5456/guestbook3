@@ -35,7 +35,7 @@ public class GuestController {
 		model.addAttribute("guestList", guestList);
 
 		// list.jsp로 포워딩
-		return "/WEB-INF/addList.jsp";
+		return "addList";
 	}
 
 	// ===================================== 등록 =====================================
@@ -61,7 +61,7 @@ public class GuestController {
 		
 		model.addAttribute("guestBookVo",guestBookVo);
 
-		return "/WEB-INF/deleteForm.jsp";
+		return "deleteForm";
 	}
 
 	// ===================================== 삭제 =====================================
